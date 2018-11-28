@@ -9,8 +9,44 @@ class Register extends Component {
         username: '',
         email: '',
         password: '',
-        passwordConfirmation: ''
+        passwordConfirmation: '',
+        errors: [], 
+        loading: false
     }
+
+    isFormValid = () => {
+
+        let errors = [];
+        let error;
+
+        if(this.isFormEmpty(this.state)) {
+            error = {message: 'Fill in all fields'};
+            this.setState({errors: errors.concat(error)})
+            return false;
+        } else if(!this.isPasswordValid(this.state)) {
+            error = {message: 'Password is invalid'}
+            this.setState({errors: errors.concat(error)})
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    isFormEmpty = ({username, email, password, passwordConfirmation}) => {
+        return !username.length || !email.length || !password.length || !passwordConfirmation.length
+    }
+
+    isPasswordValid = ({password, passwordConfirmation}) => {
+        if(password.length < 6 || passwordConfirmation.length < 6) {
+            return false; 
+        } else if(password !== passwordConfirmation) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p>)
 
     handleChange = (event) => {
         this.setState({
@@ -20,17 +56,30 @@ class Register extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        if(this.isFormValid()) {
+        this.setState({ errors: [], loading: true})
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(createdUser => {
             console.log(createdUser)
+            this.setState({loading: false})
         })
         .catch(err => {
             console.log(err)
+            this.setState({errors: this.state.errors.concat(err), loading: false})
         })
+      }
+    }
+
+    handleInputError = (errors, inputName) => {
+        return errors.some(error => 
+            error.message.toLowerCase().includes(inputName)
+            ) 
+            ? 'error'
+            : ''
     }
 
     render() {
-        const {username, email, password, passwordConfirmation} = this.state;
+        const {username, email, password, passwordConfirmation, errors, loading } = this.state;
         return (
          <Grid className="app" textAlign="center" verticalAlign="middle">
             <Grid.Column style={{maxWidth: '450px'}}>
@@ -56,6 +105,7 @@ class Register extends Component {
                         placeholder="Email address" 
                         onChange={this.handleChange} 
                         value={email}
+                        className={this.handleInputError(errors, 'email')}
                         type="email"
                         />
                       <Form.Input fluid 
@@ -65,6 +115,7 @@ class Register extends Component {
                         placeholder="Password" 
                         onChange={this.handleChange} 
                         value={password}
+                        className={this.handleInputError(errors, 'password')}
                         type="password"
                         />
                      <Form.Input fluid 
@@ -74,11 +125,18 @@ class Register extends Component {
                         placeholder="Confirm Password" 
                         onChange={this.handleChange} 
                         value={passwordConfirmation}
+                        className={this.handleInputError(errors, 'password')}
                         type="password"
                         />
-                    <Button fluid color="purple" size="large">Submit</Button>
+                    <Button disabled={loading} className={loading ? 'loading' : ''} fluid color="purple" size="large">Submit</Button>
                     </Segment>
                 </Form>
+                {errors.length > 0 && (
+                    <Message error> 
+                     <h3>Error</h3>
+                     {this.displayErrors(errors)}
+                    </Message>
+                )}
                 <Message>Already A User?<Link to='/login'>Login</Link></Message>
             </Grid.Column>
          </Grid>
