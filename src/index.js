@@ -11,7 +11,8 @@ import { Provider, connect } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import 'semantic-ui-css/semantic.min.css'
 import rootReducer from './reducers';
-import { setUser } from './actions'
+import { setUser } from './actions';
+import Spinner from './Spinner'
 // import { setupMaster } from 'cluster';
 
 const store = createStore(rootReducer, composeWithDevTools());
@@ -27,7 +28,7 @@ class Root extends React.Component {
     }
 
     render() {
-       return (
+       return this.props.isLoading ? <Spinner /> : (
                 <Switch>
                     <Route exact path='/' component={App} />
                     <Route path='/register' component={Register} />
@@ -37,7 +38,11 @@ class Root extends React.Component {
     }
 } 
 
-const RootWithAuth = withRouter(connect(null, {setUser})(Root))
+const mapStateToProps = (state) => ({
+    isLoading: state.user.isLoading
+})
+
+const RootWithAuth = withRouter(connect(mapStateToProps, {setUser})(Root))
 
 ReactDOM.render(
 <Provider store={store}>
