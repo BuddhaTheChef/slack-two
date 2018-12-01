@@ -6,7 +6,7 @@ class ColorPanel extends Component {
         return (
            <Sidebar
            as={Menu}
-           icon="labeld"
+           icon="labeled"
            inverted
            vertical
            visible
