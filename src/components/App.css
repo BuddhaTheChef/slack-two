@@ -19,3 +19,10 @@ html,body, .app {
     right: 1em;
     z-index: 100; 
 }
+
+/* Message.js */
+
+.own_message {
+    border-left: 2px solid blue;
+    padding-left: 8px;
+}
