@@ -179,16 +179,6 @@ class Channels extends Component {
         const { channels, modal } = this.state;
         return (
             <React.Fragment>
-            <Menu.Menu className="direct_menu">
-              <Menu.Item>
-                  <span>
-                      <Icon name="exchange" /> Channels
-                  </span>
-                  ({channels.length}) <Icon name="add" onClick={this.openModal}/>
-              </Menu.Item>
-              {this.displayChannels(channels)}
-            </Menu.Menu>
-
             {/* Add Channel Modal */}
             <Modal basic open={modal} onClose={this.closeModal}>
                 <Modal.Header>Add A Channel</Modal.Header>
