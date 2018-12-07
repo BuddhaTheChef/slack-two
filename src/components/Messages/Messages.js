@@ -13,7 +13,9 @@ class Messages extends Component {
         messages: [],
         messagesLoading: true,
         channel: this.props.currentChannel,
+        isChannelFavorited: false,
         user: this.props.currentUser,
+        usersRef: firebase.database().ref('users'),
         allUsers: '',
         searchTerm: '',
         searchLoad: false,
@@ -24,11 +26,12 @@ class Messages extends Component {
         const { channel, user } = this.state;
         if(channel && user) {
             this.addListeners(channel.id);
+            this.addUserFavoritesListener(channel.id, user.uid);
         }
     }
 
     addListeners = (channelId) => {
-        this.addMessageListener(channelId)
+        this.addMessageListener(channelId);
     }
 
     addMessageListener = (channelId) => {
@@ -44,9 +47,58 @@ class Messages extends Component {
         })
     }
 
+    addUserFavoritesListener = (channelId, userId) => {
+        this.state.usersRef
+        .child(userId)
+        .child('favorited')
+        .once('value')
+        .then(data => {
+            if(data.val !== null) {
+                const channelIds = Object.keys(data.val());
+                const prevFavorited = channelIds.includes(channelId);
+                this.setState({isChannelFavorited: prevFavorited});
+            }
+        })
+    };
+
     getMessagesRef = () => {
         const {messagesRef, privateMessagesRef, privateChannel} = this.state;
         return privateChannel ? privateMessagesRef : messagesRef;
+    }
+
+    handleFavorite = () => {
+        this.setState( prevState => ({
+            isChannelFavorited: !prevState.isChannelFavorited
+        }), () => this.favChannel())
+    }
+
+    favChannel = () => {
+        if(this.state.isChannelFavorited) {
+            console.log('favorited');
+            this.state.usersRef
+            .child(`${this.state.user.uid}/favorited`)
+            .update({
+                [this.state.channel.id]: {
+                    name: this.state.channel.name,
+                    details: this.state.channel.details,
+                    createdBy: {
+                        name: this.state.channel.createdBy.name,
+                        avatar: this.state.channel.createdBy.avatar
+                    }
+                }
+            })
+        }
+        else {
+            console.log('unfavorited')
+            this.state.usersRef
+            .child(`${this.state.user.uid}/favorited`)
+            .child(this.state.channel.id)
+            .remove(err => {
+                if(err !== null) {
+                    console.error(err)
+                }
+            })
+        }
     }
 
     handleHeaderSearch = (event) => {
@@ -96,7 +148,7 @@ class Messages extends Component {
     };
 
     render() {
-        const { messagesRef, messages, channel, user, allUsers, searchTerm, searchResults, searchLoad, privateChannel } = this.state;
+        const { messagesRef, messages, channel, user, allUsers, searchTerm, searchResults, searchLoad, privateChannel, isChannelFavorited } = this.state;
         return (
             <React.Fragment>
                 <MessagesHeader
@@ -105,6 +157,8 @@ class Messages extends Component {
                     handleHeaderSearch={this.handleHeaderSearch}
                     searchLoad={searchLoad}
                     isPrivateChannel={privateChannel}
+                    handleFavorite={this.handleFavorite}
+                    isChannelFavorited={isChannelFavorited}
                  />
 
                 <Segment>
