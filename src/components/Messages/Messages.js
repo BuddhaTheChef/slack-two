@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { setUserPosts } from '../../actions';
 import { Segment, Comment } from 'semantic-ui-react';
 import MessagesHeader from './MessagesHeader';
 import MessageForm from './MessageForm';
@@ -43,7 +45,8 @@ class Messages extends Component {
                 messages: loadedMessages,
                 messagesLoading: false
             })
-            this.numUniqueUsers(loadedMessages)
+            this.numUniqueUsers(loadedMessages);
+            this.numUserPosts(loadedMessages);
         })
     }
 
@@ -106,7 +109,7 @@ class Messages extends Component {
             searchTerm: event.target.value,
             searchLoad: true
         }, () => this.handleSearchMessages())
-    }
+    };
 
     handleSearchMessages = () => {
         const channelMessages = [...this.state.messages];
@@ -119,7 +122,7 @@ class Messages extends Component {
         }, [])
         this.setState({ searchResults });
         setTimeout(() => this.setState({ searchLoad: false }), 1000)
-    }
+    };
 
     numUniqueUsers = (messages) => {
         const uniqueUsers = messages.reduce((acc, message) => {
@@ -131,6 +134,21 @@ class Messages extends Component {
         const multUsers = uniqueUsers.length > 1 || uniqueUsers.length === 0;
         const allUsers = `${uniqueUsers.length} Developer${multUsers ? 's' : ''}`;
         this.setState({allUsers})
+    };
+
+    numUserPosts = (messages) => {
+        let userPosts = messages.reduce((acc, message) => {
+            if(message.user.name in acc) {
+                acc[message.user.name].count += 1;
+            } else {
+                acc[message.user.name] = {
+                    avatar: message.user.avatar,
+                    count: 1
+                }
+            }
+            return acc;
+        }, {})
+        this.props.setUserPosts(userPosts)
     }
 
     displayMessages = (messages) => (
@@ -141,7 +159,7 @@ class Messages extends Component {
             user={this.state.user}
              />
         ))
-    )
+    );
 
     displayChannelName = (channel) => {
         return channel ? `${this.state.privateChannel ? '@' : '#'}${channel.name}` : '';
@@ -179,4 +197,4 @@ class Messages extends Component {
     }
 }
 
-export default Messages;
+export default connect(null, { setUserPosts })(Messages);
