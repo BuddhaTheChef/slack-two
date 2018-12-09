@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Sidebar, Menu, Divider, Button, Modal, Icon, Label, Segment } from 'semantic-ui-react';
-import { SliderPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
 import firebase from '../config/firebase';
 import { connect } from 'react-redux';
 import { setColors } from '../../actions';
@@ -101,12 +101,12 @@ class ColorPanel extends Component {
                   <Modal.Content>
                     <Segment inverted>
                         <Label content="Primary Color" />
-                        <SliderPicker color={primary} onChange={this.handlePrimaryColor}/>
+                        <SketchPicker color={primary} onChange={this.handlePrimaryColor}/>
                     </Segment>
 
                     <Segment inverted>
                         <Label content="Secondar Color" />
-                        <SliderPicker color={secondary} onChange={this.handleSecondaryColor} />
+                        <SketchPicker color={secondary} onChange={this.handleSecondaryColor} />
                     </Segment>
                   </Modal.Content>
                 <Modal.Actions>
