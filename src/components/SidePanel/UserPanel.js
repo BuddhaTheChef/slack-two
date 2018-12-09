@@ -9,7 +9,14 @@ class UserPanel extends Component {
     modal: false,
     previewImage: '',
     croppedImage: '',
-    blob: ''
+    blob: '',
+    storageRef: firebase.storage().ref(),
+    userRef: firebase.auth().currentUser,
+    usersRef: firebase.database().ref('users'),
+    uploadedCroppedImage: '',
+    metadata: {
+      contentType: 'image/jpeg'
+    }
   };
 
   openModal = () => this.setState({ modal: true });
@@ -35,6 +42,43 @@ class UserPanel extends Component {
       text: <span onClick={this.handleSignout}>Sign Out</span>
     }
   ];
+
+  uploadCroppedImage = () => {
+    const { storageRef, userRef, blob, metadata } = this.state;
+
+    storageRef
+    .child(`profileImg/user-${userRef.uid}`)
+    .put(blob, metadata)
+    .then(snap => {
+      snap.ref.getDownloadURL().then((downloadURL) => {
+        this.setState({ uploadedCroppedImage: downloadURL}, () => this.changeProfileImage())
+      })
+    })
+  };
+
+  changeProfileImage = () => {
+    this.state.userRef
+    .updateProfile({
+      photoURL: this.state.uploadedCroppedImage
+    })
+    .then(() => {
+      console.log('PhotoURL Updated');
+      this.closeModal();
+    })
+    .catch(err => {
+      console.error(err)
+    })
+
+    this.state.usersRef
+      .child(this.state.user.uid)
+      .update({avatar: this.state.uploadedCroppedImage})
+      .then(() => {
+        console.log('User avatar updated');
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
 
   handleChange = (event) => {
     const file = event.target.files[0];
@@ -136,7 +180,7 @@ class UserPanel extends Component {
                </Grid>
             </Modal.Content>
             <Modal.Actions>
-              { croppedImage && <Button color='blue' inverted>
+              { croppedImage && <Button color='blue' inverted onClick={this.uploadCroppedImage}>
                 <Icon name='save' /> Change Avatar
               </Button>}
               <Button color='purple' inverted onClick={this.handleCropImage}>
