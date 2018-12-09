@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Sidebar, Menu, Divider, Button, Modal, Icon, Label, Segment } from 'semantic-ui-react';
 import { SliderPicker } from 'react-color';
 import firebase from '../config/firebase';
+import { connect } from 'react-redux';
+import { setColors } from '../../actions';
 
 class ColorPanel extends Component {
     state = {
@@ -9,7 +11,26 @@ class ColorPanel extends Component {
         primary: '',
         secondary: '',
         user: this.props.currentUser,
-        usersRef: firebase.database().ref('users')
+        usersRef: firebase.database().ref('users'),
+        userColors: []
+    }
+
+    componentDidMount() {
+        if(this.state.user) {
+            this.addListener(this.state.user.uid);
+        }
+    }
+
+    addListener = (userId) => {
+        let userColors = [];
+        this.state.usersRef
+            .child(`${userId}/colors`)
+            .on('child_added', snap => {
+                userColors.unshift(snap.val())
+                console.log(userColors);
+                this.setState({ userColors })
+            })
+
     }
 
     openModal = () => this.setState({modal: true});
@@ -45,9 +66,22 @@ class ColorPanel extends Component {
           .catch(err => console.error(err));
       };
 
+      displayUserColors = (colors) => (
+          colors.length > 0 && colors.map((color, i) => (
+              <React.Fragment key={i}>
+                <Divider />
+                <div className="color_container" onClick={() => this.props.setColors(color.primary, color.secondary)}>
+                  <div className="color_square" style={{background: color.primary}}>
+                    <div className="color_overlay" style={{background: color.secondary}}/>
+                  </div>
+                </div>
+              </React.Fragment>
+          ))
+      )
+
 
     render() {
-        const { modal, primary, secondary } = this.state;
+        const { modal, primary, secondary,userColors } = this.state;
         return (
            <Sidebar
            as={Menu}
@@ -59,6 +93,7 @@ class ColorPanel extends Component {
            >
             <Divider/>
             <Button icon='add' size='small' color='blue' onClick={this.openModal}/>
+            {this.displayUserColors(userColors)}
 
             {/* Color picker modal */}
             <Modal basic open={modal} onClose={this.closeModal}>
@@ -88,4 +123,4 @@ class ColorPanel extends Component {
     }
 }
 
-export default ColorPanel;
+export default connect(null, { setColors })(ColorPanel);
