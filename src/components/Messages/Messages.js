@@ -6,6 +6,7 @@ import MessagesHeader from './MessagesHeader';
 import MessageForm from './MessageForm';
 import firebase from '../config/firebase';
 import Message from './Message';
+import Typing from './Typing';
 
 class Messages extends Component {
     state = {
@@ -182,6 +183,9 @@ class Messages extends Component {
                 <Segment>
                     <Comment.Group className='messages'>
                         {searchTerm ? this.displayMessages(searchResults): this.displayMessages(messages)}
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                        <span className="user_typing">User is typing</span><Typing />
+                        </div>
                     </Comment.Group>
                 </Segment>
                 
