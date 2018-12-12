@@ -36,6 +36,16 @@ class Messages extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.bottomOfComponent) {
+            this.scrollToBottom();
+        }
+    }
+
+    scrollToBottom = () => {
+        this.bottomOfComponent.scrollIntoView({behavior: 'smooth'})
+    }
+
     addListeners = (channelId) => {
         this.addMessageListener(channelId);
         this.addTypingListeners(channelId);
@@ -229,6 +239,7 @@ class Messages extends Component {
                     <Comment.Group className='messages'>
                         {searchTerm ? this.displayMessages(searchResults): this.displayMessages(messages)}
                         {this.displayTypingUsers(typingUsers)}
+                        <div ref={node => (this.bottomOfComponent = node)}></div>
                     </Comment.Group>
                 </Segment>
                 
