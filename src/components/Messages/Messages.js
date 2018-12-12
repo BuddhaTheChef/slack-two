@@ -7,6 +7,7 @@ import MessageForm from './MessageForm';
 import firebase from '../config/firebase';
 import Message from './Message';
 import Typing from './Typing';
+import PreLoad from './PreLoad';
 
 class Messages extends Component {
     state = {
@@ -221,8 +222,18 @@ class Messages extends Component {
         ))
     )
 
+    displayMessagesOutline = (loading) => (
+        loading ? (
+            <React.Fragment>
+            {[...Array(10)].map((_,i) => (
+                <PreLoad key={i} />
+            ))}
+            </React.Fragment>
+        ) : null
+    )
+
     render() {
-        const { messagesRef, messages, channel, user, allUsers, searchTerm, searchResults, searchLoad, privateChannel, isChannelFavorited, typingUsers } = this.state;
+        const { messagesRef, messages, channel, user, allUsers, searchTerm, searchResults, searchLoad, privateChannel, isChannelFavorited, typingUsers, messagesLoading } = this.state;
         return (
             <React.Fragment>
                 <MessagesHeader
@@ -237,6 +248,7 @@ class Messages extends Component {
 
                 <Segment>
                     <Comment.Group className='messages'>
+                        {this.displayMessagesOutline(messagesLoading)}
                         {searchTerm ? this.displayMessages(searchResults): this.displayMessages(messages)}
                         {this.displayTypingUsers(typingUsers)}
                         <div ref={node => (this.bottomOfComponent = node)}></div>
