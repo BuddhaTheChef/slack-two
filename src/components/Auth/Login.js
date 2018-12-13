@@ -52,15 +52,16 @@ class Login extends Component {
         const { email, password, errors, loading } = this.state;
         return (
          <Grid className="app" textAlign="center" verticalAlign="middle">
-            <Grid.Column style={{maxWidth: '450px'}}>
+            <Grid.Column style={{maxWidth: '550px'}}>
                 <Header as="h2" icon color="blue" textAlign="center">
                     <Icon name="code branch" color="blue" />
                         Login to TechChat
                 </Header>
                 <Form onSubmit={this.handleSubmit} size="large">
-                    <Segment stacked>
+                    <Segment stacked style={{background: 'rgb(35,35,35)'}}>
                 
                        <Form.Input fluid 
+                        id="login-email"
                         name="email" 
                         icon="mail" 
                         iconPosition="left" 
@@ -71,6 +72,7 @@ class Login extends Component {
                         type="email"
                         />
                       <Form.Input fluid 
+                        id="login-password"
                         name="password" 
                         icon="lock" 
                         iconPosition="left" 
@@ -90,7 +92,7 @@ class Login extends Component {
                      {this.displayErrors(errors)}
                     </Message>
                 )}
-                <Message>Don't have an account?<Link to='/register'>Sign Up</Link></Message>
+                <Message style={{background: 'rgb(35,35,35)', color: 'gray'}}>Don't have an account? <Link to='/register'>Sign Up</Link></Message>
             </Grid.Column>
          </Grid>
         )

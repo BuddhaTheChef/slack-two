@@ -1,13 +1,28 @@
 html,body, .app {
     height:  100vh;
-    background-color: #eee;
+    background-color: rgb(50,50,50);
     padding:  1em;
+}
+
+/* Login page  */
+#login-email, #login-password {
+    background: rgb(60,60,60);
+}
+
+/* Signup page */
+#register-username, #register-email, #register-password, #register-password2 {
+    background: rgb(60,60,60);
 }
 
 /* Messages.js */
 .messages {
     height: 690px;
     overflow-y: scroll;
+}
+
+.ui.comments {
+    margin: 1.5em 0;
+    max-width: 100% !important;
 }
 
 /* MessageForm.js */

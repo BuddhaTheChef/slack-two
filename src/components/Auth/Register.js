@@ -103,14 +103,15 @@ class Register extends Component {
         const {username, email, password, passwordConfirmation, errors, loading } = this.state;
         return (
          <Grid className="app" textAlign="center" verticalAlign="middle">
-            <Grid.Column style={{maxWidth: '450px'}}>
+            <Grid.Column style={{maxWidth: '550px'}}>
                 <Header as="h2" icon color="purple" textAlign="center">
                     <Icon name="puzzle piece" color="purple" />
                         Register For TechChat
                 </Header>
                 <Form onSubmit={this.handleSubmit} size="large">
-                    <Segment stacked>
+                    <Segment stacked style={{background: 'rgb(35,35,35)'}}>
                         <Form.Input fluid 
+                        id="register-username"
                         name="username" 
                         icon="user" 
                         iconPosition="left" 
@@ -120,6 +121,7 @@ class Register extends Component {
                         type="text"
                         />
                        <Form.Input fluid 
+                        id="register-email"
                         name="email" 
                         icon="mail" 
                         iconPosition="left" 
@@ -130,6 +132,7 @@ class Register extends Component {
                         type="email"
                         />
                       <Form.Input fluid 
+                        id="register-password"
                         name="password" 
                         icon="lock" 
                         iconPosition="left" 
@@ -140,6 +143,7 @@ class Register extends Component {
                         type="password"
                         />
                      <Form.Input fluid 
+                        id="register-password2"
                         name="passwordConfirmation" 
                         icon="repeat" 
                         iconPosition="left" 
@@ -158,7 +162,7 @@ class Register extends Component {
                      {this.displayErrors(errors)}
                     </Message>
                 )}
-                <Message>Already A User?<Link to='/login'>Login</Link></Message>
+                <Message style={{background: 'rgb(35,35,35)', color: 'gray'}}>Already A User? <Link to='/login'> Login</Link></Message>
             </Grid.Column>
          </Grid>
         )
