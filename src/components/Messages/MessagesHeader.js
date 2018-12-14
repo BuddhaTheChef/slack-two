@@ -8,17 +8,17 @@ class MessagesHeader extends Component {
             <Segment clearing>
     {/* Channel Title */}
                 <Header fluid='true' as='h2' floated='left' style={{marginBottom: 0}}>
-                    <span>
+                    <span style={{color: 'whitesmoke'}}>
                     {channelName}
                     {!isPrivateChannel && (
                         <Icon
                           onClick={handleFavorite} 
                           name={isChannelFavorited ? 'star' : 'star outline'} 
-                          color={isChannelFavorited ? 'yellow' : 'black'} 
+                          color={isChannelFavorited ? 'yellow' : 'whitesmoke'} 
                         />
                         )}
                     </span>
-                    <Header.Subheader>{allUsers}</Header.Subheader>
+                    <Header.Subheader style={{color: 'gray'}}>{allUsers}</Header.Subheader>
                 </Header>
 
     {/* Channel Search Input  */}

@@ -11,7 +11,7 @@ html,body, .app {
 
 /* Signup page */
 #register-username, #register-email, #register-password, #register-password2 {
-    background: rgb(60,60,60);
+    background: rgb(60,60,60) !important;
 }
 
 /* Messages.js */
@@ -25,6 +25,32 @@ html,body, .app {
     max-width: 100% !important;
 }
 
+.ui.segment {
+    position: relative;
+    background:rgb(50,50,50) !important;
+    box-shadow: 0 2px 20px 4px rgba(34,36,38,.15)!important;
+    margin: 1rem 0;
+    padding: 1em 1em;
+    border-radius: .28571429rem;
+    border: 1px solid rgba(34,36,38,.15);
+}
+
+.ui.header .icon:only-child {
+    display: inline!important;
+    padding: 0;
+    height: 32px;
+    margin-right: .75rem;
+}
+
+.ui.icon.input>input {
+    padding-right: 2.67142857em!important;
+    background: rgb(70,70,70) !important;
+}
+
+.ui.comments .comment {
+    margin-bottom: 20px !important;
+}
+
 /* MessageForm.js */
 .message_form {
     position: fixed !important;
@@ -33,6 +59,11 @@ html,body, .app {
     left: 0;
     right: 1em;
     z-index: 100; 
+}
+
+.ui.fluid.input>input {
+    width: 0!important;
+    background: rgb(70,70,70);
 }
 
 .emojipicker {
@@ -195,4 +226,31 @@ html,body, .app {
     bottom: 5px;
     left: 40px;
     right: 20px;
+}
+
+
+/* MetaPanel */
+.ui.top.attached.header {
+    margin-bottom: 0;
+    background:rgb(70,70,70);
+    color: whitesmoke;
+    border: solid rgb(40,40,40) 1px;
+    border-radius: .28571429rem .28571429rem 0 0;
+}
+
+.ui.styled.accordion, .ui.styled.accordion .accordion {
+    border-radius: .28571429rem;
+    border: solid rgb(40,40,40) 1px;
+    background: rgb(70,70,70) !important;
+    box-shadow: 0 1px 2px 0 rgba(34,36,38,.15), 0 0 0 1px rgba(34,36,38,.15);
+}
+
+.ui.list>.item .description {
+    display: block;
+    color: whitesmoke !important;
+}
+
+.ui.header:last-child {
+    margin-bottom: 0;
+    color: aqua !important;
 }

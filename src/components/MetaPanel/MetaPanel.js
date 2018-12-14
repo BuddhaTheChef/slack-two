@@ -43,7 +43,8 @@ class MetaPanel extends React.Component {
           About # {channel && channel.name}
         </Header>
         <Accordion styled attached="true">
-          <Accordion.Title
+          <Accordion.Title 
+            style={{color: 'whitesmoke'}}
             active={activeIndex === 0}
             index={0}
             onClick={this.setActiveIndex}
@@ -52,11 +53,14 @@ class MetaPanel extends React.Component {
             <Icon name="info" />
             Channel Details
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 0}>
+          <Accordion.Content 
+            style={{color: 'whitesmoke'}} 
+            active={activeIndex === 0}>
             {channel && channel.details}
           </Accordion.Content>
 
-          <Accordion.Title
+          <Accordion.Title 
+            style={{color: 'whitesmoke'}}
             active={activeIndex === 1}
             index={1}
             onClick={this.setActiveIndex}
@@ -66,10 +70,11 @@ class MetaPanel extends React.Component {
             Top Posters
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 1}>
-            <List>{userPosts && this.displayTopPost(userPosts)}</List>
+            <List style={{color: 'whitesmoke'}} >{userPosts && this.displayTopPost(userPosts)}</List>
           </Accordion.Content>
 
           <Accordion.Title
+            style={{color: 'whitesmoke'}}
             active={activeIndex === 2}
             index={2}
             onClick={this.setActiveIndex}
