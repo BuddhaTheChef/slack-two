@@ -104,8 +104,8 @@ class Register extends Component {
         return (
          <Grid className="app" textAlign="center" verticalAlign="middle">
             <Grid.Column style={{maxWidth: '550px'}}>
-                <Header as="h2" icon color="purple" textAlign="center">
-                    <Icon name="puzzle piece" color="purple" />
+                <Header as="h1" icon color="purple" textAlign="center" style={{display: 'flex', flexDirection: 'column-reverse'}}>
+                    <Icon name="drivers license" color="purple" />
                         Register For TechChat
                 </Header>
                 <Form onSubmit={this.handleSubmit} size="large">

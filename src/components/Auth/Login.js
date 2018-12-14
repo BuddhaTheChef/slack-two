@@ -53,8 +53,8 @@ class Login extends Component {
         return (
          <Grid className="app" textAlign="center" verticalAlign="middle">
             <Grid.Column style={{maxWidth: '550px'}}>
-                <Header as="h2" icon color="blue" textAlign="center">
-                    <Icon name="code branch" color="blue" />
+                <Header as="h1" icon color="blue" textAlign="center" style={{display: 'flex', flexDirection: 'column-reverse'}}>
+                    <Icon name="code keyboard" color="blue" />
                         Login to TechChat
                 </Header>
                 <Form onSubmit={this.handleSubmit} size="large">
