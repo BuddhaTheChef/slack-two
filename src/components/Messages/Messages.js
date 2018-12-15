@@ -10,6 +10,7 @@ import Typing from './Typing';
 import PreLoad from './PreLoad';
 
 
+
 class Messages extends Component {
     state = {
         privateChannel: this.props.isPrivateChannel,

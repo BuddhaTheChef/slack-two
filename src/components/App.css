@@ -289,4 +289,12 @@ html,body, .app {
         margin-left: 0 !important;
         bottom: 0px !important;
     }
+
+    .hamburger-menu{ 
+        display:block !important; 
+    }
+  }
+
+  @media screen and (min-width: 601px) and (max-width: 2024px) {
+    .hamburger-menu{ display: none !important; }   /* hide it on larger screens */
   }

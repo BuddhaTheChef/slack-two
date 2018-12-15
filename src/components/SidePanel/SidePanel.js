@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Button } from 'semantic-ui-react';
 import UserPanel from './UserPanel';
 import Channels from './Channels';
 import DirectMessage from './DirectMessage';
@@ -17,6 +17,7 @@ class SidePanel extends Component {
             vertical
             style={{background: primaryColor, fontSize: '1.2rem'}} 
             >
+            <Button className="hamburger-menu" style={{marginLeft: '117px'}}>Options</Button>
              <UserPanel primaryColor={primaryColor} currentUser={currentUser} />
              <Favorited currentUser={currentUser} /> 
              <Channels currentUser={currentUser} />
